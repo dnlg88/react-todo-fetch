@@ -1,12 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+}
+h1{
+    margin: 15px auto;
+    font-size: 5rem;
+    font-weight: 100;
+    color:salmon;
+    opacity: 45%;
+}
+.container {
+    display: flex;
+    min-width: 100%;
+    justify-content: center;
+}
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    background: rgb(245, 245, 245);
+    box-shadow:
+        0 1px 1px rgba(0,0,0,0.15), /* The top layer shadow */
+        0 12px 0 -5px rgb(245, 245, 245), /* The second layer */
+        0 12px 1px -4px rgba(0,0,0,0.15), /* The second layer shadow */
+        0 24px 0 -10px rgb(245, 245, 245), /* The third layer */
+        0 24px 1px -9px rgba(0,0,0,0.15), /* The third layer shadow */
+        0 25px 0 -15px rgb(245, 245, 245), /* The fourth layer */
+        0px 5px 50px rgba(0, 0, 0, 0.35); /* The fourth layer shadow */
+    min-height: 100%;
+    width: 80%;
+}
 
-/* 
+.completed {
+    text-decoration: line-through;
+}
+ul {
+    flex-grow: 1;
+    flex-shrink: 1;
+    list-style-type: none;
+    max-width: 100%;
+}
+li {
+    font-size: 2rem;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+input {
+    width: 80%;
+    border: hidden;
+    height: 3rem;
+    margin: 5px auto;
+    font-size: 2rem;
+}
+input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+      }
+p {
+    padding-left: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(221, 221, 221);
+    font-size: 0.85rem;
+}
 
-*/
+.list-element{
+    display: flex;
+}
