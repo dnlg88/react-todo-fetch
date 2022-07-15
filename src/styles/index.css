@@ -46,7 +46,7 @@ ul {
     max-width: 100%;
 }
 li {
-    font-size: 2rem;
+    font-size: 1.85rem;
 }
 
 input {
@@ -55,10 +55,12 @@ input {
     height: 3rem;
     margin: 5px auto;
     font-size: 2rem;
+    font-weight: 100;
 }
 input:focus,
       textarea:focus,
       select:focus {
+        font-weight: 600;
         outline: none;
       }
 p {
@@ -70,4 +72,9 @@ p {
 
 .list-element{
     display: flex;
+}
+
+.nuke{
+    background-color: lightsalmon;
+    border: none;
 }

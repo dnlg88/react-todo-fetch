@@ -5,26 +5,21 @@ import Lista from "./Lista.jsx"
 const Home = () => {
 	
 	const [toDoList, setToDoList] = useState([])
-	const [inputValue, setInputValue] = useState()
+	const [inputValue, setInputValue] = useState("")
 	let user = 'danielgzm'
 	
 
 	const get = ()=>{
-		fetch(`https://assets.breatheco.de/apis/fake/todos/user/${user}`, {
-    	method: "GET",
-      	headers: {
-       	 "Content-Type": "application/json"
-      	}
-    	})
+		fetch(`https://assets.breatheco.de/apis/fake/todos/user/${user}`)
     	.then(resp => {
-			if(resp.status === 404){
-				createUser();
+			console.log(resp.ok)
+			if(!resp.ok){
+				createUser()
 			}
-			console.log("fetching...")
         	return resp.json();
     	})
     	.then(data => {
-       	 setToDoList([...data])
+       	 setToDoList(data)
     	})
     	.catch(error => {
         
@@ -37,7 +32,7 @@ const Home = () => {
 	},[])
 
 	const put = (aux)=>{
-		fetch('https://assets.breatheco.de/apis/fake/todos/user/danielgzm', {
+		fetch(`https://assets.breatheco.de/apis/fake/todos/user/${user}`, {
       	method: "PUT",
       	body: JSON.stringify(aux),
       	headers: {
@@ -45,9 +40,9 @@ const Home = () => {
       	}
     	}).then(resp => {
         	if(resp.ok){
-				console.log(aux)
 				get()
 			}
+			return resp.json;
     	})
     	.then(data => {
         	console.log(data);
@@ -58,20 +53,23 @@ const Home = () => {
 
 	const createUser = ()=>{
 		fetch(`https://assets.breatheco.de/apis/fake/todos/user/${user}`, {
-			method: [POST],
+			method: "POST",
 			headers: {
 				"Content-type": "application/json"
 			},
-			body: []
+			body: JSON.stringify([])
 		})
 		.then(response => {
+			if(response.ok){
+				get()
+			}
 			return response.json();
 		})
 		.then(data => {
 			console.log(data.result)
 		})
 		.catch(error => {
-			console.log(error.message)
+			console.log(error)
 		})
 	}
 
@@ -86,9 +84,27 @@ const Home = () => {
 	}
 
 	const deleteTask = (element) => {
-		let aux = toDoList.filter(el=> el!= element)
-		setToDoList(aux)
-		put(aux)
+		if (toDoList.length == 1){
+			nukeToDo()
+		} else if(toDoList.length > 1){
+			let aux = toDoList.filter(el=> el!= element)
+			setToDoList(aux)
+			put(aux)
+		} 
+	}
+
+	const nukeToDo = ()=>{
+		fetch(`https://assets.breatheco.de/apis/fake/todos/user/${user}`, {
+			method: "DELETE",
+			headers: {
+				"Content-type": "application/json"
+			},
+		})
+		.then(response=>{
+			if(response.ok){
+				createUser()
+			}
+		})
 	}
 
 	const isCompleted = (i)=>{
@@ -110,12 +126,15 @@ const Home = () => {
 					<input type="text" value={inputValue} onChange={(e)=>setInputValue(e.target.value)} placeholder="What needs to be done?" 
 					onKeyDown={(e)=>{
 						if(e.key === 'Enter'){
+							if(e.target.value.trim()){
 							addToDo(e.target.value)
 							setInputValue("")
+							}
 						}}
 					}  />
 					<Lista arr={toDoList} deleteTask={deleteTask} isCompleted={isCompleted}/>
 					<p>{toDoList.length} items left</p>
+					<button className="nuke" onClick={()=>nukeToDo()}>Delete Everything</button>
 				</div>
 			</div>
 		</div>
